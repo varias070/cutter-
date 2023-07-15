@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  db:
+    container_name: db_test
+    image: postgres
+    restart: always
+    env_file: ./.env
+    environment:
+      ROOT_PASSWORD: $ROOT_PASSWORD
+      POSTGRES_DB: $DATABASE
+      POSTGRES_USER: $USER
+      POSTGRES_PASSWORD: $PASSWORD
+    ports:
+      - 127.0.0.1:33060:3306
+
+  app:
+    depends_on:
+      - db
+    env_file: ./.env
+    build: .
+    ports:
+      - 3000:3000
